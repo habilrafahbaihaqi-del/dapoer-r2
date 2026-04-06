@@ -114,6 +114,7 @@ export default function Home() {
               key={product.id}
               product={product}
               onSelect={handleSelectProduct}
+              showBadge={true}
             />
           ))}
         </div>
