@@ -38,7 +38,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
     const nomorWA = "6281256207363";
     let pesan =
-      "Halo DAPUR R2, saya ingin memesan menu Pre-Order berikut:%0A%0A";
+      "Halo DAPOER R2, saya ingin memesan menu Pre-Order berikut:%0A%0A";
 
     items.forEach((item, index) => {
       const formatDate = new Date(item.poDate).toLocaleDateString("id-ID", {
