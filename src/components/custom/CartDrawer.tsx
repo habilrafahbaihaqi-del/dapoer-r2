@@ -36,7 +36,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const handleCheckoutWA = () => {
     if (items.length === 0) return;
 
-    const nomorWA = "6281256207363";
+    const nomorWA = "6285817663217";
     let pesan =
       "Halo DAPOER R2, saya ingin memesan menu Pre-Order berikut:%0A%0A";
 

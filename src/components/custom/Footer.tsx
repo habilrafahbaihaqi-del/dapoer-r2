@@ -47,7 +47,7 @@ export function Footer() {
               </div>
             </div>
 
-            <Link href="https://wa.me/6281256207363" target="_blank">
+            <Link href="https://wa.me/6285817663217" target="_blank">
               <button className="mt-8 w-full bg-[#651114] hover:bg-[#4a0d0f] text-white py-4 rounded-md font-bold tracking-widest text-xs uppercase transition-colors">
                 Pesan Lewat WhatsApp
               </button>
