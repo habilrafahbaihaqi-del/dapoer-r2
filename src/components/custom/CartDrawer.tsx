@@ -10,7 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Minus, Plus, Trash2, CalendarDays } from "lucide-react"; // Tambah icon kalender
+import { Minus, Plus, Trash2, CalendarDays, Truck } from "lucide-react"; // Tambah icon Truck
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -19,6 +19,9 @@ interface CartDrawerProps {
 
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const [isMounted, setIsMounted] = useState(false);
+  // State baru untuk input catatan pembeli
+  const [note, setNote] = useState("");
+
   const { items, updateQuantity, removeFromCart } = useCartStore();
 
   useEffect(() => {
@@ -35,24 +38,30 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
     const nomorWA = "6281256207363";
     let pesan =
-      "Halo Dapoer R2, saya ingin memesan menu Pre-Order berikut:%0A%0A";
+      "Halo DAPUR R2, saya ingin memesan menu Pre-Order berikut:%0A%0A";
 
     items.forEach((item, index) => {
-      // Format tanggal untuk WA
       const formatDate = new Date(item.poDate).toLocaleDateString("id-ID", {
-        day: "numeric",
+        day: "2-digit",
         month: "short",
         year: "numeric",
       });
 
       pesan += `${index + 1}. *${item.name}* (${item.variant})%0A`;
       pesan += `   📅 Dikirim: ${formatDate}%0A`;
+      pesan += `   🚚 Kurir: ${item.delivery}%0A`; // Memasukkan jasa pengiriman
       pesan += `   Jumlah: ${item.qty} porsi%0A`;
       pesan += `   Subtotal: Rp ${(item.price * item.qty).toLocaleString("id-ID")}%0A%0A`;
     });
 
     pesan += `*Total Pesanan: Rp ${totalPrice.toLocaleString("id-ID")}*%0A%0A`;
-    pesan += `Mohon info untuk ongkos kirim dan total pembayarannya ya. Terima kasih!`;
+
+    // Memasukkan Catatan Pembeli jika diisi
+    if (note.trim() !== "") {
+      pesan += `*Catatan Tambahan:*%0A${note}%0A%0A`;
+    }
+
+    pesan += `Mohon info untuk total ongkos kirim dan instruksi pembayarannya. Terima kasih!`;
 
     window.open(`https://wa.me/${nomorWA}?text=${pesan}`, "_blank");
   };
@@ -62,7 +71,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="w-full sm:max-w-md bg-[#FAF7F2] flex flex-col p-0 overflow-hidden">
-        <SheetHeader className="p-6 border-b border-gray-200 text-left space-y-1">
+        <SheetHeader className="p-6 border-b border-gray-200 text-left space-y-1 bg-white">
           <SheetTitle className="text-[#651114] font-bold text-xl uppercase tracking-wider">
             Keranjang Belanja
           </SheetTitle>
@@ -111,13 +120,19 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">
                       {item.variant}
                     </p>
-                    {/* Tampilkan Tanggal PO di bawah varian */}
-                    <div className="flex items-center gap-1 mt-1 text-xs font-medium text-[#c05b31]">
-                      <CalendarDays size={12} />
-                      {new Date(item.poDate).toLocaleDateString("id-ID", {
-                        day: "2-digit",
-                        month: "short",
-                      })}
+                    {/* Tampilkan Tanggal PO dan Kurir di UI Keranjang */}
+                    <div className="flex flex-col gap-1 mt-1.5">
+                      <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#c05b31]">
+                        <CalendarDays size={12} />
+                        {new Date(item.poDate).toLocaleDateString("id-ID", {
+                          day: "2-digit",
+                          month: "short",
+                        })}
+                      </div>
+                      <div className="flex items-center gap-1.5 text-[11px] font-medium text-gray-600">
+                        <Truck size={12} />
+                        {item.delivery}
+                      </div>
                     </div>
                   </div>
 
@@ -129,7 +144,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             updateQuantity(item.id, item.qty - 1);
                           else removeFromCart(item.id);
                         }}
-                        className="p-1.5 text-gray-600 hover:text-black transition-colors"
+                        className="p-1.5 text-gray-600 hover:text-black"
                       >
                         {item.qty === 1 ? (
                           <Trash2 size={14} />
@@ -142,7 +157,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       </span>
                       <button
                         onClick={() => updateQuantity(item.id, item.qty + 1)}
-                        className="p-1.5 text-gray-600 hover:text-black transition-colors"
+                        className="p-1.5 text-gray-600 hover:text-black"
                       >
                         <Plus size={14} />
                       </button>
@@ -154,8 +169,27 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           )}
         </div>
 
-        <div className="border-t border-gray-200 p-6 bg-white space-y-4">
-          <div className="space-y-2">
+        {/* BAGIAN FOOTER KERANJANG (Diperbarui dengan Form Catatan) */}
+        <div className="border-t border-gray-200 p-6 bg-white flex flex-col gap-4 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)]">
+          {/* Textarea Catatan */}
+          <div>
+            <label
+              htmlFor="notes"
+              className="block text-xs font-semibold text-gray-700 mb-1.5 uppercase tracking-wider"
+            >
+              Catatan untuk Penjual (Opsional)
+            </label>
+            <textarea
+              id="notes"
+              rows={2}
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="Contoh: Tolong pedasnya dikurangi ya kak..."
+              className="w-full rounded-md border border-gray-300 p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#651114]"
+            />
+          </div>
+
+          <div className="space-y-2 pt-2 border-t border-gray-100">
             <div className="flex justify-between text-sm text-gray-600">
               <span>Subtotal</span>
               <span className="font-semibold text-gray-900">
@@ -180,7 +214,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           <Button
             onClick={handleCheckoutWA}
             disabled={items.length === 0}
-            className="w-full bg-[#651114] hover:bg-[#4a0d0f] text-white py-6 rounded-md font-semibold tracking-wide flex items-center justify-center gap-2"
+            className="w-full bg-[#651114] hover:bg-[#4a0d0f] text-white py-6 rounded-md font-semibold tracking-wide flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 hover:shadow-lg"
           >
             PESAN VIA WHATSAPP
           </Button>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Product, ProductVariant } from "@/data/products";
 import { useCartStore } from "@/store/useCartStore";
 import toast from "react-hot-toast";
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -25,11 +26,11 @@ export function VariantModal({ product, isOpen, onClose }: VariantModalProps) {
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
     null,
   );
-
-  // State baru untuk menyimpan tanggal PO
   const [poDate, setPoDate] = useState<string>("");
-  // State untuk tanggal minimal (H+3)
   const [minDateStr, setMinDateStr] = useState<string>("");
+
+  // State baru untuk Jasa Pengiriman
+  const [deliveryMethod, setDeliveryMethod] = useState<string>("Gojek Instant");
 
   const addToCart = useCartStore((state) => state.addToCart);
 
@@ -38,13 +39,10 @@ export function VariantModal({ product, isOpen, onClose }: VariantModalProps) {
       setSelectedVariant(product.variants[0]);
     }
 
-    // Logika menghitung H+3 saat modal dibuka
     const today = new Date();
-    today.setDate(today.getDate() + 3);
-    // Format tanggal menjadi YYYY-MM-DD untuk input type="date"
+    today.setDate(today.getDate() + 2);
     const formattedMinDate = today.toISOString().split("T")[0];
     setMinDateStr(formattedMinDate);
-    // Set default value ke H+3
     setPoDate(formattedMinDate);
   }, [product, isOpen]);
 
@@ -58,7 +56,7 @@ export function VariantModal({ product, isOpen, onClose }: VariantModalProps) {
     }
 
     addToCart({
-      id: `${product.id}-${selectedVariant.name}-${poDate}`,
+      id: `${product.id}-${selectedVariant.name}-${poDate}-${deliveryMethod}`,
       productId: product.id,
       name: product.name,
       image: product.image,
@@ -66,12 +64,13 @@ export function VariantModal({ product, isOpen, onClose }: VariantModalProps) {
       price: selectedVariant.price,
       qty: 1,
       poDate: poDate,
+      delivery: deliveryMethod, // Simpan data kurir ke keranjang
     });
+
     toast.success(`${product.name} berhasil ditambahkan!`);
     onClose();
   };
 
-  // Format tampilan tanggal untuk UI
   const displayDate = new Date(poDate).toLocaleDateString("id-ID", {
     weekday: "long",
     year: "numeric",
@@ -81,14 +80,14 @@ export function VariantModal({ product, isOpen, onClose }: VariantModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{product.name}</DialogTitle>
           <DialogDescription>{product.description}</DialogDescription>
         </DialogHeader>
 
         <div className="py-4 space-y-6">
-          {/* Section Pilih Varian */}
+          {/* 1. Section Pilih Varian (Otomatis menyesuaikan jumlah varian) */}
           <div>
             <h4 className="mb-3 text-sm font-medium leading-none">
               1. Pilih Varian:
@@ -123,10 +122,10 @@ export function VariantModal({ product, isOpen, onClose }: VariantModalProps) {
             </RadioGroup>
           </div>
 
-          {/* Section Pilih Tanggal PO */}
+          {/* 2. Section Pilih Tanggal PO */}
           <div>
             <h4 className="mb-3 text-sm font-medium leading-none">
-              2. Tanggal Pengiriman (Min. H+3):
+              2. Tanggal Pengiriman (Min. H+2):
             </h4>
             <input
               type="date"
@@ -140,6 +139,64 @@ export function VariantModal({ product, isOpen, onClose }: VariantModalProps) {
                 Dikirim pada: <strong>{displayDate}</strong>
               </p>
             )}
+          </div>
+
+          {/* 3. Section Jasa Pengiriman */}
+          <div>
+            <h4 className="mb-3 text-sm font-medium leading-none">
+              3. Jasa Pengiriman:
+            </h4>
+            <RadioGroup
+              value={deliveryMethod}
+              onValueChange={setDeliveryMethod}
+              className="grid grid-cols-2 gap-3"
+            >
+              {[
+                {
+                  id: "Gojek Instant",
+                  name: "Instant",
+                  brand: "Gojek",
+                  color: "bg-[#00AA13]",
+                },
+                {
+                  id: "Grab Instant",
+                  name: "Instant",
+                  brand: "Grab",
+                  color: "bg-[#00B14F]",
+                },
+                {
+                  id: "Gojek Sameday",
+                  name: "Sameday",
+                  brand: "Gojek",
+                  color: "bg-[#00AA13]",
+                },
+                {
+                  id: "Grab Sameday",
+                  name: "Sameday",
+                  brand: "Grab",
+                  color: "bg-[#00B14F]",
+                },
+              ].map((method) => (
+                <div key={method.id} className="relative">
+                  <RadioGroupItem
+                    value={method.id}
+                    id={method.id}
+                    className="peer sr-only"
+                  />
+                  <Label
+                    htmlFor={method.id}
+                    className="flex flex-col items-center justify-center p-3 border-2 rounded-md cursor-pointer hover:bg-gray-50 peer-data-[state=checked]:border-[#651114] peer-data-[state=checked]:bg-red-50 transition-all"
+                  >
+                    <span
+                      className={`text-[10px] text-white font-bold px-2 py-0.5 rounded-full mb-1 ${method.color}`}
+                    >
+                      {method.brand}
+                    </span>
+                    <span className="font-semibold text-xs">{method.name}</span>
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
           </div>
         </div>
 

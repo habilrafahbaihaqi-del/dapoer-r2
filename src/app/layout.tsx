@@ -11,8 +11,37 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "The Culinary Heirloom",
-  description: "Tradisi Minang dalam Sentuhan Modern",
+  title: "DAPOER R2 | Citarasa Minang Autentik",
+  description:
+    "Menghadirkan warisan rasa Minangkabau dengan bumbu rahasia. Dimasak fresh dengan sistem Pre-Order khusus untuk Anda.",
+
+  keywords: [
+    "rendang asli minang",
+    "dapur r2",
+    "masakan padang premium",
+    "pre order rendang",
+    "jual dendeng batokok",
+    "ayam pop autentik",
+  ],
+  authors: [{ name: "Dapur R2" }],
+
+  openGraph: {
+    title: "DAPUR R2 | Citarasa Minang Autentik",
+    description:
+      "Menghadirkan warisan rasa Minangkabau dengan bumbu rahasia. Dimasak fresh dengan sistem Pre-Order khusus untuk Anda.",
+    url: "https://dapoer-r2.vercel.app",
+    siteName: "Dapoer R2",
+    images: [
+      {
+        url: "/images/hero-section.png",
+        width: 1200,
+        height: 630,
+        alt: "Dapoer R2 Hero",
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

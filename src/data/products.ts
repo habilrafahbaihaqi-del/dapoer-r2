@@ -23,8 +23,9 @@ export const products: Product[] = [
     image: "/images/rendang-daging.png",
     isBestSeller: true,
     variants: [
-      { name: "500 Gr", price: 185000 },
-      { name: "1 KG", price: 350000 },
+      { name: "250 Gr", price: 85000 },
+      { name: "500 Gr", price: 170000 },
+      { name: "1 KG", price: 340000 },
     ],
   },
   {
@@ -35,8 +36,9 @@ export const products: Product[] = [
     image: "/images/rendang-paru-kriuk.png",
     isBestSeller: true,
     variants: [
-      { name: "500 Gr", price: 85000 },
-      { name: "1 KG", price: 160000 },
+      { name: "225 Gr", price: 75000 },
+      { name: "450 Gr", price: 150000 },
+      { name: "900 Gr", price: 300000 },
     ],
   },
   {
@@ -46,22 +48,16 @@ export const products: Product[] = [
       "Irisan kentang kuning yang super renyah dengan balutan sambal balado asli (bukan bubuk). Pedas manisnya pas untuk teman nasi.",
     image: "/images/keripik-kentang-balado.png",
     isBestSeller: true,
-    variants: [
-      { name: "250 Gr", price: 95000 },
-      { name: "500 Gr", price: 180000 },
-    ],
+    variants: [{ name: "300 Gr", price: 50000 }],
   },
   {
     id: "p4",
-    name: "Dendeng Kentang",
+    name: "Dendeng Batokok",
     description:
-      "Kombinasi sempurna dendeng sapi renyah dan irisan kentang goreng. Perpaduan tekstur yang mewah dalam satu gigitan.",
-    image: "/images/dendeng-kentang.png",
+      "Daging sapi yang direbus dengan bumbu, lalu dipukul (batokok) hingga pipih dan seratnya terbuka. Disiram dengan ulekan kasar cabai hijau segar yang wangi minyak kelapa.",
+    image: "/images/dendeng-batokok.png",
     isBestSeller: true,
-    variants: [
-      { name: "250 Gr", price: 95000 },
-      { name: "500 Gr", price: 180000 },
-    ],
+    variants: [{ name: "1 KG", price: 300000 }],
   },
   {
     id: "p5",
@@ -70,10 +66,7 @@ export const products: Product[] = [
       "Daging sapi yang diiris tipis, dijemur, dan digoreng garing. Disajikan terpisah dengan sambal ijo atau merah sesuai selera Anda.",
     image: "/images/dendeng-kering.png",
     isBestSeller: true,
-    variants: [
-      { name: "250 Gr", price: 95000 },
-      { name: "500 Gr", price: 180000 },
-    ],
+    variants: [{ name: "20 Potong", price: 300000 }],
   },
   {
     id: "p6",
@@ -82,10 +75,7 @@ export const products: Product[] = [
       "Telur yang diolah menjadi kerupuk renyah berbentuk kotak, diselimuti bumbu rendang kering yang kaya rempah.",
     image: "/images/rendang-telur.png",
     isBestSeller: true,
-    variants: [
-      { name: "250 Gr", price: 95000 },
-      { name: "500 Gr", price: 180000 },
-    ],
+    variants: [{ name: "300 Gr", price: 50000 }],
   },
   {
     id: "p7",
@@ -95,8 +85,27 @@ export const products: Product[] = [
     image: "/images/rendang-suwir.png",
     isBestSeller: true,
     variants: [
-      { name: "250 Gr", price: 95000 },
-      { name: "500 Gr", price: 180000 },
+      { name: "225 Gr", price: 85000 },
+      { name: "450 Gr", price: 170000 },
+      { name: "900 Gr", price: 340000 },
     ],
+  },
+  {
+    id: "p8",
+    name: "Gulai Kambing",
+    description:
+      "Potongan daging kambing muda yang empuk, dimasak perlahan dengan santan kental dan 21 jenis rempah pilihan. Tanpa bau prengus, hanya aroma rempah yang menggugah selera.",
+    image: "/images/gulai-kambing.png",
+    isBestSeller: true,
+    variants: [{ name: "1 KG", price: 300000 }],
+  },
+  {
+    id: "p9",
+    name: "Gulai Tunjang",
+    description:
+      "Kikil sapi pilihan dengan tekstur kenyal yang pas, disiram kuah gulai kuning kental yang gurih dan berlemak. Menu wajib bagi pecinta kuliner Minang autentik.",
+    image: "/images/gulai-tunjang.png",
+    isBestSeller: true,
+    variants: [{ name: "Per Kaki", price: 300000 }],
   },
 ];

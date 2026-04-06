@@ -10,6 +10,7 @@ export interface CartItem {
   price: number;
   qty: number;
   poDate: string;
+  delivery: string;
 }
 
 interface CartState {

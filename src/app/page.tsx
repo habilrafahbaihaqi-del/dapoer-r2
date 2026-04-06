@@ -13,6 +13,7 @@ import {
   CalendarDays,
   WalletCards,
   MessageCircle,
+  ChevronDown,
 } from "lucide-react";
 
 export default function Home() {
@@ -205,6 +206,65 @@ export default function Home() {
               <div className="font-bold text-sm">Pelanggan {item}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* 5. FAQ SECTION */}
+      <section id="faq" className="py-24 bg-white border-t border-gray-100">
+        <div className="container mx-auto px-4 md:px-8 max-w-3xl">
+          <div className="text-center mb-16">
+            <p className="text-[#651114] text-xs font-bold tracking-widest uppercase mb-2">
+              Pusat Bantuan
+            </p>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900">
+              Pertanyaan Populer
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: " Kenapa harus Pre-Order H-3?",
+                a: "Kami tidak menggunakan sistem stok (Ready Stock). Bahan baku baru kami beli di pasar subuh sesuai jumlah pesanan yang masuk. Proses masak rendang dan gulai yang tanak membutuhkan waktu minimal 6-8 jam agar bumbu meresap sempurna dan tekstur daging empuk.",
+              },
+              {
+                q: "Mengapa pembayaran harus Full di Awal?",
+                a: "Karena setiap pesanan bersifat Made-to-Order (dimasak khusus untuk Anda), dana tersebut langsung kami gunakan untuk pengadaan bahan baku segar. Hal ini juga membantu kami mempercepat proses pengiriman tanpa harus menagih pelunasan saat kurir tiba.",
+              },
+              {
+                q: "Bagaimana cara pengirimannya?",
+                a: "Lauk Basah (Gulai/Batokok): Wajib menggunakan kurir Instan/Same Day. Lauk Kering (Rendang/Dendeng): Bisa dikirim ke seluruh Indonesia menggunakan ekspedisi reguler karena daya tahannya yang baik di perjalanan.",
+              },
+              {
+                q: "Berapa lama daya tahan makanan Dapoer R2?",
+                a: "Lauk Kering: 2-4 minggu di suhu ruang (suasana sejuk), 1-2 bulan di kulkas. Gulai & Lauk Basah: 2 hari di kulkas, 2 minggu di freezer. Pastikan dipanaskan kembali sebelum dinikmati.",
+              },
+              {
+                q: "Apakah bisa kirim untuk stok traveling/umroh?",
+                a: "Sangat bisa! Produk Rendang Suwir, Rendang Telur, dan Paru Kriuk kami sangat populer untuk dibawa bepergian karena praktis, kemasan aman (vacuum), dan tahan lama tanpa pengawet.",
+              },
+              {
+                q: "Dapatkah saya membatalkan pesanan?",
+                a: "Pembatalan H-3 dana kembali 100%. Pembatalan H-2 dikenakan potongan 50%. Pembatalan H-1 atau Hari-H mohon maaf dana tidak dapat dikembalikan karena bahan sudah dibeli dan proses masak sudah dimulai.",
+              },
+            ].map((faq, idx) => (
+              <details
+                key={idx}
+                className="group bg-[#FAF7F2] p-6 rounded-xl border border-gray-100 hover:shadow-md transition-all duration-300 [&_summary::-webkit-details-marker]:hidden cursor-pointer"
+              >
+                <summary className="font-bold text-gray-900 text-lg flex justify-between items-center outline-none">
+                  {faq.q}
+                  {/* Ikon panah yang akan berputar saat dropdown dibuka */}
+                  <span className="transition-transform duration-300 group-open:rotate-180 text-[#651114]">
+                    <ChevronDown size={20} />
+                  </span>
+                </summary>
+                <p className="text-gray-600 text-sm leading-relaxed mt-4 border-t border-gray-200 pt-4">
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
